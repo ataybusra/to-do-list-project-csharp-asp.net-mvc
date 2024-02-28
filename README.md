@@ -9,7 +9,7 @@ To run this project locally, follow these steps:
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/ataybusra/to-do-list-project-c-asp.net-mvc.git
+git clone https://github.com/ataybusra/to-do-list-project-csharp-asp.net-mvc.git
 ```
 
 2. Open the solution file (`OrnekToDoList.sln`) in Visual Studio.
