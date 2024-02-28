@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>To Do List</h2>
+
+
+
+<button class="btn btn-success" data-toggle="modal" data-target="#successymodal">
+    New Task
+</button>
+
+<div class="modal fade" id="successymodal">
+    <div class="modal-dialog modal-lg">
+        <form action="/Home/Create/" method="post">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white"> New Task Description </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-lg-12">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="Title">
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Description</label>
+                        <textarea rows="4" class="form-control" id="basic-textarea" name="Description"></textarea>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Date</label>
+                        <input type="date" form-control" name="Date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success"> Add Task </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Task</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Completed</th>
+                                <th scope="col">Update</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (OrnekToDoList.Models.tbl_todolist item in ViewBag.Liste)
+                            {
+                                string Edit = "Edit" + item.Id;
+                                string Delete = "Delete" + item.Id;
+                                <tr>
+                                    <td scope="row">@item.Id</td>
+                                    <td scope="row">@item.Title</td>
+                                    <td scope="row">@item.Description</td>
+                                    <td scope="row">@item.Date</td>
+                                    <td scope="row">Incomplete</td>
+                                    <td scope="row">
+                                        <button class="btn btn-info ">
+                                            @Html.ActionLink("Completed", "Complete", new { Id = item.Id })
+                                        </button>
+                                    </td>
+                                    <td scope="row">
+                                        <button class="btn btn-warning" data-toggle="modal" data-target="#@Edit">
+                                            Update
+                                        </button>
+                                        <div class="modal fade" id="@Edit">
+                                            <div class="modal-dialog modal-lg">
+                                                <form action="/Home/Edit/" method="post">
+                                                    <div class="modal-content border-info">
+                                                        <div class="modal-header bg-info">
+                                                            <h5 class="modal-title text-white">Update Task</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="text" name="id" value="@item.Id" hidden />
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Title</label>
+                                                                <input type="text" class="form-control" value="@item.Title" name="Title">
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Description</label>
+                                                                <textarea rows="4" class="form-control" id="basic-textarea" name="Description">@item.Description</textarea>
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Date</label>
+                                                                <input type="date" class="form-control" name="Date">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-info">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td scope="row">
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#@Delete">
+                                            Delete
+                                        </button>
+                                        <div class="modal fade" id="@Delete">
+                                            <div class="modal-dialog modal-lg" style="display: flex; width: 400px; ">
+                                                <div class="modal-content border-danger" style="display: flex; width: 400px; align-items: center; justify-items: center; flex-wrap: wrap; justify-content: center; ">
+                                                    <div class="modal-header bg-danger" style="display:flex;justify-items:center; width:400px">
+                                                        <h4 class="modal-title text-white" style="font-size:23px">Task Will Be Permanently Deleted</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group col-lg-12" style="margin:0px">
+                                                            <h5>
+                                                                Are you sure you want to delete this task?
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                                                        <a href="/Home/Delete/@item.Id" class="btn btn-danger">
+                                                            Yes
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

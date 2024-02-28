@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ÖrnekToDoList.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="IsCompleted" Type="bit" />
+          <Property Name="Date" Type="smalldatetime" />
+          <Property Name="CategoryId" Type="smallint" />
+        </EntityType>
+        <EntityType Name="tbl_todocategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoriName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_todolist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsCompleted" Type="bit" />
+          <Property Name="IsChecked" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="smalldatetime" />
+        </EntityType>
+        <Association Name="FK_tbl_todo_tbl_todocategory">
+          <End Role="tbl_todocategory" Type="Self.tbl_todocategory" Multiplicity="0..1" />
+          <End Role="tbl_todo" Type="Self.tbl_todo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_todocategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_todo">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ÖrnekToDoListModelsStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_todo" EntityType="Self.tbl_todo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_todocategory" EntityType="Self.tbl_todocategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_todolist" EntityType="Self.tbl_todolist" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_todo_tbl_todocategory" Association="Self.FK_tbl_todo_tbl_todocategory">
+            <End Role="tbl_todocategory" EntitySet="tbl_todocategory" />
+            <End Role="tbl_todo" EntitySet="tbl_todo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ÖrnekToDoList.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsCompleted" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="CategoryId" Type="Int16" />
+          <NavigationProperty Name="tbl_todocategory" Relationship="Self.FK_tbl_todo_tbl_todocategory" FromRole="tbl_todo" ToRole="tbl_todocategory" />
+        </EntityType>
+        <EntityType Name="tbl_todocategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoriName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_todo" Relationship="Self.FK_tbl_todo_tbl_todocategory" FromRole="tbl_todocategory" ToRole="tbl_todo" />
+        </EntityType>
+        <EntityType Name="tbl_todolist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsCompleted" Type="Boolean" />
+          <Property Name="IsChecked" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_tbl_todo_tbl_todocategory">
+          <End Role="tbl_todocategory" Type="Self.tbl_todocategory" Multiplicity="0..1" />
+          <End Role="tbl_todo" Type="Self.tbl_todo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_todocategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_todo">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Dbo_ToDoListEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_todo" EntityType="Self.tbl_todo" />
+          <EntitySet Name="tbl_todocategory" EntityType="Self.tbl_todocategory" />
+          <EntitySet Name="tbl_todolist" EntityType="Self.tbl_todolist" />
+          <AssociationSet Name="FK_tbl_todo_tbl_todocategory" Association="Self.FK_tbl_todo_tbl_todocategory">
+            <End Role="tbl_todocategory" EntitySet="tbl_todocategory" />
+            <End Role="tbl_todo" EntitySet="tbl_todo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ÖrnekToDoListModelsStoreContainer" CdmEntityContainer="Dbo_ToDoListEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ÖrnekToDoList.Models.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_todo">
+            <EntityTypeMapping TypeName="ÖrnekToDoList.Models.tbl_todo">
+              <MappingFragment StoreEntitySet="tbl_todo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_todocategory">
+            <EntityTypeMapping TypeName="ÖrnekToDoList.Models.tbl_todocategory">
+              <MappingFragment StoreEntitySet="tbl_todocategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoriName" ColumnName="CategoriName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_todolist">
+            <EntityTypeMapping TypeName="ÖrnekToDoList.Models.tbl_todolist">
+              <MappingFragment StoreEntitySet="tbl_todolist">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="IsChecked" ColumnName="IsChecked" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
